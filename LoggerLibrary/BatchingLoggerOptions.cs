@@ -6,9 +6,14 @@ namespace LoggerLibrary
 {
     public class BatchingLoggerOptions
     {
+        #region
+
         private int? _batchSize;
         private int? _backgroundQueueSize = 1000;
         private TimeSpan _flushPeriod = TimeSpan.FromSeconds(1);
+
+        #endregion
+        #region Properties
 
         /// <summary>
         /// Gets or sets the period after which logs will be flushed to the store.
@@ -71,5 +76,7 @@ namespace LoggerLibrary
         /// Defaults to <c>false</c>.
         /// </summary>
         public bool IncludeScopes { get; set; } = false;
+
+        #endregion
     }
 }

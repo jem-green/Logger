@@ -57,9 +57,10 @@ namespace LoggerLibrary
             UpdateOptions(options.CurrentValue);
         }
         #endregion
-        #region Methods
-
+        #region Properties
         public bool IsEnabled { get; private set; }
+        #endregion
+        #region Methods
 
         public void Dispose()
         {

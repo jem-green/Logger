@@ -11,6 +11,8 @@ namespace LoggerLibrary
     /// </summary>
     public static class FileLoggerFactoryExtensions
     {
+        #region Methods
+
         /// <summary>
         /// Adds a file logger named 'File' to the factory.
         /// </summary>
@@ -48,5 +50,7 @@ namespace LoggerLibrary
 
             return builder;
         }
+
+        #endregion
     }
 }

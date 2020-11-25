@@ -7,14 +7,22 @@ namespace LoggerLibrary
 {
     public class BatchingLogger : ILogger
     {
+        #region Variables
+
         private readonly BatchingLoggerProvider _provider;
         private readonly string _category;
+
+        #endregion
+        #region Constructors
 
         public BatchingLogger(BatchingLoggerProvider loggerProvider, string categoryName)
         {
             _provider = loggerProvider;
             _category = categoryName;
         }
+
+        #endregion
+        #region Methods
 
         public IDisposable BeginScope<TState>(TState state)
         {
@@ -55,5 +63,7 @@ namespace LoggerLibrary
         {
             Log(DateTimeOffset.Now, logLevel, eventId, state, exception, formatter);
         }
+
+        #endregion
     }
 }

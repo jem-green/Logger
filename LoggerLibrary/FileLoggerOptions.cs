@@ -9,11 +9,15 @@ namespace LoggerLibrary
     /// </summary>
     public class FileLoggerOptions : BatchingLoggerOptions
     {
+        #region Variables
+        
         private int? _fileSizeLimit = 10 * 1024 * 1024;
         private int? _retainedFileCountLimit = 2;
         private string _fileName = "logs-";
         private string _extension = "txt";
 
+        #endregion
+        #region Properties
 
         /// <summary>
         /// Gets or sets a strictly positive value representing the maximum log size in bytes or null for no limit.
@@ -89,6 +93,8 @@ namespace LoggerLibrary
         /// </summary>
         /// <returns></returns>
         public string LogDirectory { get; set; } = "Logs";
+
+        #endregion
     }
 }
 

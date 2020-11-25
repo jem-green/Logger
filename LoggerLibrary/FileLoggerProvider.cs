@@ -50,7 +50,10 @@ namespace LoggerLibrary
             _maxRetainedFiles = options.RetainedFileCountLimit;
             _periodicity = options.Periodicity;
         }
+
         #endregion
+        #region Methods
+
         /// <inheritdoc />
         protected override async Task WriteMessagesAsync(IEnumerable<LogMessage> messages, CancellationToken cancellationToken)
         {
@@ -75,7 +78,9 @@ namespace LoggerLibrary
             RollFiles();
         }
 
+        #endregion
         #region Private
+
         private string GetFullName((int Year, int Month, int Day, int Hour, int Minute) group)
         {
             switch (_periodicity)
