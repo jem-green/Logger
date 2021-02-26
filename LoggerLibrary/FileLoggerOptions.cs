@@ -15,6 +15,7 @@ namespace LoggerLibrary
         private int? _retainedFileCountLimit = 2;
         private string _fileName = "logs-";
         private string _extension = "txt";
+        private string _path = "logs";
 
         #endregion
         #region Properties
@@ -72,6 +73,24 @@ namespace LoggerLibrary
         }
 
         /// <summary>
+        /// The directory in which log files will be written, relative to the app process.
+        /// Default to <c>Logs</c>
+        /// </summary>
+        /// <returns></returns>
+        public string Path
+        {
+            get { return _path; }
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new ArgumentException(nameof(value));
+                }
+                _path = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the filename extension to use for log files.
         /// Defaults to <c>txt</c>.
         /// Will strip any prefixed .
@@ -86,13 +105,6 @@ namespace LoggerLibrary
         /// Gets or sets the periodicity for rolling over log files.
         /// </summary>
         public PeriodicityOptions Periodicity { get; set; } = PeriodicityOptions.Daily;
-
-        /// <summary>
-        /// The directory in which log files will be written, relative to the app process.
-        /// Default to <c>Logs</c>
-        /// </summary>
-        /// <returns></returns>
-        public string LogDirectory { get; set; } = "Logs";
 
         #endregion
     }

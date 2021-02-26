@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using LoggerLibrary;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace LoggerApp
@@ -10,7 +10,7 @@ namespace LoggerApp
     {
         static void Main(string[] args)
         {
-            // configure logger options
+            // Configure logger options
 
             FileLoggerOptions fileLogger = new FileLoggerOptions();
             fileLogger.FileName = "logger";
@@ -18,9 +18,11 @@ namespace LoggerApp
             ILoggerProvider loggerProvider = new FileLoggerProvider(fileLogger);
             ILoggerProvider customProvider = new CustomLoggerProvider();
 
-            //
+            // Create a logger Factory and add two loggers a File logger and a 
+            // console logger
 
             ILoggerFactory loggerFactory = new LoggerFactory();
+
             
             loggerFactory.AddProvider(loggerProvider);
             loggerFactory.AddProvider(customProvider);
@@ -38,12 +40,16 @@ namespace LoggerApp
                 Warning     3   Logs that highlight an abnormal or unexpected event in the application flow, but do not otherwise cause the application execution to stop.
              */
 
-            logger.LogTrace("Trace");
+            logger.LogTrace("    Trace");
             logger.LogDebug("Debug");
             logger.LogInformation("Information");
             logger.LogWarning("Warning");
             logger.LogError("Error");
             logger.LogCritical("Critical");
+
+            Thread.Sleep(10000); // wait to see if logger flushes
+
+            fileLogger.FileName = "test";
 
             if (logger.IsEnabled(LogLevel.Warning) == true)
             {
@@ -61,6 +67,7 @@ namespace LoggerApp
                     }
                 }
             }
+            Thread.Sleep(10000); // wait to see if logger flushes
         }
     }
 }

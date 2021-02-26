@@ -166,6 +166,8 @@ namespace LoggerLibrary
             _outputTask = Task.Run(ProcessLogQueue);
         }
 
+
+
         private void Stop()
         {
             _cancellationTokenSource.Cancel();

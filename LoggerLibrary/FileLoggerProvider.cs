@@ -14,14 +14,10 @@ namespace LoggerLibrary
     [ProviderAlias("File")]
     public class FileLoggerProvider : BatchingLoggerProvider
     {
-        #region Variables
+        #region Variable
 
-        private readonly string _path;
-        private readonly string _fileName;
-        private readonly string _extension;
-        private readonly int? _maxFileSize;
-        private readonly int? _maxRetainedFiles;
         private readonly PeriodicityOptions _periodicity;
+        private FileLoggerOptions _options;
 
         #endregion
         #region Constructor
@@ -33,23 +29,18 @@ namespace LoggerLibrary
         public FileLoggerProvider(IOptionsMonitor<FileLoggerOptions> options) : base(options)
         {
             var loggerOptions = options.CurrentValue;
-            _path = loggerOptions.LogDirectory;
-            _fileName = loggerOptions.FileName;
-            _extension = loggerOptions.Extension;
-            _maxFileSize = loggerOptions.FileSizeLimit;
-            _maxRetainedFiles = loggerOptions.RetainedFileCountLimit;
+            _options = loggerOptions;
             _periodicity = loggerOptions.Periodicity;
         }
 
         public FileLoggerProvider(FileLoggerOptions options) : base(options)
         {
-            _path = options.LogDirectory;
-            _fileName = options.FileName;
-            _extension = options.Extension;
-            _maxFileSize = options.FileSizeLimit;
-            _maxRetainedFiles = options.RetainedFileCountLimit;
+            _options = options;
             _periodicity = options.Periodicity;
         }
+
+        #endregion
+        #region Properties
 
         #endregion
         #region Methods
@@ -57,13 +48,13 @@ namespace LoggerLibrary
         /// <inheritdoc />
         protected override async Task WriteMessagesAsync(IEnumerable<LogMessage> messages, CancellationToken cancellationToken)
         {
-            Directory.CreateDirectory(_path);
+            Directory.CreateDirectory(_options.Path);
 
             foreach (var group in messages.GroupBy(GetGrouping))
             {
                 var fullName = GetFullName(group.Key);
                 var fileInfo = new FileInfo(fullName);
-                if (_maxFileSize > 0 && fileInfo.Exists && fileInfo.Length > _maxFileSize)
+                if (_options.FileSizeLimit > 0 && fileInfo.Exists && fileInfo.Length > _options.FileSizeLimit)
                 {
                     return;
                 }
@@ -86,13 +77,13 @@ namespace LoggerLibrary
             switch (_periodicity)
             {
                 case PeriodicityOptions.Minutely:
-                    return Path.Combine(_path, $"{_fileName}{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}{group.Minute:00}.{_extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}{group.Minute:00}.{_options.Extension}");
                 case PeriodicityOptions.Hourly:
-                    return Path.Combine(_path, $"{_fileName}{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}.{_extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}.{_options.Extension}");
                 case PeriodicityOptions.Daily:
-                    return Path.Combine(_path, $"{_fileName}{group.Year:0000}{group.Month:00}{group.Day:00}.{_extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}{group.Day:00}.{_options.Extension}");
                 case PeriodicityOptions.Monthly:
-                    return Path.Combine(_path, $"{_fileName}{group.Year:0000}{group.Month:00}.{_extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}.{_options.Extension}");
                 default:
                     break;
             }
@@ -109,12 +100,12 @@ namespace LoggerLibrary
         /// </summary>
         protected void RollFiles()
         {
-            if (_maxRetainedFiles > 0)
+            if (_options.RetainedFileCountLimit > 0)
             {
-                var files = new DirectoryInfo(_path)
-                    .GetFiles(_fileName + "*")
+                var files = new DirectoryInfo(_options.Path)
+                    .GetFiles(_options.FileName + "*")
                     .OrderByDescending(f => f.Name)
-                    .Skip(_maxRetainedFiles.Value);
+                    .Skip(_options.RetainedFileCountLimit.Value);
 
                 foreach (var item in files)
                 {
