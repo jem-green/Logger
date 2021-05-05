@@ -9,7 +9,7 @@ namespace LoggerLibrary
     /// </summary>
     public class FileLoggerOptions : BatchingLoggerOptions
     {
-        #region Variables
+        #region Fields
         
         private int? _fileSizeLimit = 10 * 1024 * 1024;
         private int? _retainedFileCountLimit = 2;

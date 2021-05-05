@@ -40,7 +40,7 @@ namespace LoggerApp
                 Warning     3   Logs that highlight an abnormal or unexpected event in the application flow, but do not otherwise cause the application execution to stop.
              */
 
-            logger.LogTrace("    Trace");
+            logger.LogTrace("Trace");
             logger.LogDebug("Debug");
             logger.LogInformation("Information");
             logger.LogWarning("Warning");

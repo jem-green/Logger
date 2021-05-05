@@ -14,7 +14,7 @@ namespace LoggerLibrary
     [ProviderAlias("File")]
     public class FileLoggerProvider : BatchingLoggerProvider
     {
-        #region Variable
+        #region Fields
 
         private readonly PeriodicityOptions _periodicity;
         private FileLoggerOptions _options;

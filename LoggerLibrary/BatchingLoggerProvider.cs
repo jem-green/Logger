@@ -9,7 +9,7 @@ namespace LoggerLibrary
 {
     public abstract class BatchingLoggerProvider : ILoggerProvider, ISupportExternalScope
     {
-        #region Variables
+        #region Fields
         private readonly List<LogMessage> _currentBatch = new List<LogMessage>();
         private readonly TimeSpan _interval;
         private readonly int? _queueSize;

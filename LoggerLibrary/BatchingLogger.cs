@@ -7,7 +7,7 @@ namespace LoggerLibrary
 {
     public class BatchingLogger : ILogger
     {
-        #region Variables
+        #region Fields
 
         private readonly BatchingLoggerProvider _provider;
         private readonly string _category;
