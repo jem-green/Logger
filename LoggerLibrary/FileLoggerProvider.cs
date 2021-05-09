@@ -77,13 +77,13 @@ namespace LoggerLibrary
             switch (_periodicity)
             {
                 case PeriodicityOptions.Minutely:
-                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}{group.Minute:00}.{_options.Extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}_{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}{group.Minute:00}.{_options.Extension}");
                 case PeriodicityOptions.Hourly:
-                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}.{_options.Extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}_{group.Year:0000}{group.Month:00}{group.Day:00}{group.Hour:00}.{_options.Extension}");
                 case PeriodicityOptions.Daily:
-                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}{group.Day:00}.{_options.Extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}_{group.Year:0000}{group.Month:00}{group.Day:00}.{_options.Extension}");
                 case PeriodicityOptions.Monthly:
-                    return Path.Combine(_options.Path, $"{_options.FileName}{group.Year:0000}{group.Month:00}.{_options.Extension}");
+                    return Path.Combine(_options.Path, $"{_options.FileName}_{group.Year:0000}{group.Month:00}.{_options.Extension}");
                 default:
                     break;
             }
